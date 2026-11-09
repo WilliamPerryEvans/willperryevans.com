@@ -1,0 +1,78 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import { isRealUrl } from '../lib/content';
+
+const socials = [
+  { name: 'linkedin', label: 'LinkedIn', url: site.links.linkedin },
+  { name: 'github', label: 'GitHub', url: site.links.github },
+  { name: 'substack', label: 'Substack', url: site.links.substack },
+];
+---
+<ul class="social-links">
+  <li>
+    <!-- Email is assembled by a small script to lightly deter scrapers. -->
+    <a
+      class="social-links__link"
+      data-email-user={site.email.user}
+      data-email-domain={site.email.domain}
+      href="#"
+      aria-label="Email Will"
+    >
+      <Icon name="mail" size={20} title="Email" />
+    </a>
+    <noscript>
+      <span class="social-links__fallback">{site.email.user} (at) {site.email.domain}</span>
+    </noscript>
+  </li>
+  {
+    socials.filter((s) => isRealUrl(s.url)).map((s) => (
+      <li>
+        <a
+          class="social-links__link"
+          href={s.url}
+          aria-label={s.label}
+          rel="me noopener"
+          target="_blank"
+        >
+          <Icon name={s.name} size={20} title={s.label} />
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .social-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .social-links li {
+    display: inline-flex;
+  }
+  .social-links__link {
+    color: var(--muted);
+    line-height: 0;
+    transition: color 0.15s ease, transform 0.15s ease;
+  }
+  .social-links__link:hover {
+    color: var(--text);
+    transform: translateY(-2px);
+  }
+  .social-links__fallback {
+    font-size: var(--text-sm);
+    color: var(--muted);
+  }
+</style>
+
+<script>
+  for (const el of document.querySelectorAll<HTMLAnchorElement>('[data-email-user]')) {
+    const user = el.dataset.emailUser;
+    const domain = el.dataset.emailDomain;
+    if (user && domain) el.setAttribute('href', `mailto:${user}@${domain}`);
+  }
+</script>

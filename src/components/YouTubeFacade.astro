@@ -1,0 +1,107 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  youtubeId: string;
+  caption: string;
+}
+const { youtubeId, caption } = Astro.props;
+---
+<figure class="youtube">
+  <div class="youtube__frame">
+    <button
+      class="youtube-facade"
+      type="button"
+      data-youtube-id={youtubeId}
+      data-youtube-title={caption}
+      aria-label={`Play video: ${caption}`}
+    >
+      <span class="youtube__play" aria-hidden="true">
+        <Icon name="video" size={34} />
+      </span>
+      <span class="youtube__hint" aria-hidden="true">Click to load video from YouTube</span>
+    </button>
+  </div>
+  <figcaption class="youtube__caption">{caption}</figcaption>
+</figure>
+
+<style>
+  .youtube {
+    margin: 0;
+  }
+  .youtube__frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background:
+      linear-gradient(135deg,
+        color-mix(in srgb, var(--accent) 14%, var(--surface)),
+        var(--surface));
+  }
+  .youtube-facade {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+  }
+  .youtube__play {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    transition: transform 0.15s ease;
+  }
+  .youtube-facade:hover .youtube__play {
+    transform: scale(1.05);
+  }
+  .youtube__hint {
+    font-size: var(--text-sm);
+    color: var(--muted);
+  }
+  .youtube :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .youtube__caption {
+    margin-top: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--muted);
+  }
+</style>
+
+<script>
+  for (const button of document.querySelectorAll<HTMLButtonElement>('.youtube-facade')) {
+    button.addEventListener('click', () => {
+      const id = button.dataset.youtubeId;
+      const title = button.dataset.youtubeTitle ?? 'YouTube video';
+      if (!id) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      iframe.title = title;
+      iframe.allow =
+        'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      const frame = button.closest('.youtube__frame');
+      frame?.replaceChildren(iframe);
+    });
+  }
+</script>

@@ -1,0 +1,29 @@
+# Private working files — never push
+CLAUDE.md
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.astro/
+
+# Environment / local
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+
+# Astro
+.vercel/
+.netlify/
+drafts/
+
+# Working notes and full-size original images (the site uses copies in src/assets)
+docs/
+photos/

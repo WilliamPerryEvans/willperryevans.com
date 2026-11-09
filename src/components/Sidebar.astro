@@ -1,0 +1,85 @@
+---
+import { site } from '../data/site';
+import { isPlaceholder } from '../lib/content';
+import Nav from './Nav.astro';
+import SocialLinks from './SocialLinks.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { Image } from 'astro:assets';
+import portrait from '../assets/will-perry-evans.jpg';
+---
+<header class="sidebar">
+  <div class="sidebar__top">
+    <Image
+      class="sidebar__photo"
+      src={portrait}
+      alt="Portrait of Will Perry Evans in a suit and tie, with the U.S. Capitol behind him"
+      widths={[160, 320]}
+      sizes="160px"
+      loading="eager"
+    />
+    <h1 class="sidebar__name">{site.name}</h1>
+    <p class="sidebar__intro">{site.intro}</p>
+    {
+      !isPlaceholder(site.location) && (
+        <p class="sidebar__location">{site.location}</p>
+      )
+    }
+    <Nav />
+  </div>
+
+  <div class="sidebar__footer">
+    <SocialLinks />
+    <ThemeToggle />
+  </div>
+</header>
+
+<style>
+  .sidebar__top {
+    flex: 1 0 auto;
+  }
+  .sidebar__photo {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    margin-bottom: var(--space-5);
+  }
+  @media (max-width: 1023px) {
+    .sidebar__photo {
+      width: 120px;
+      height: 120px;
+    }
+  }
+  .sidebar__name {
+    font-size: var(--text-3xl);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-4);
+  }
+  .sidebar__intro {
+    font-size: var(--text-base);
+    color: var(--muted);
+    max-width: 46ch;
+    line-height: 1.6;
+  }
+  .sidebar__location {
+    margin-top: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--muted);
+  }
+
+  .sidebar__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+  }
+
+  @media (min-width: 1024px) {
+    .sidebar__footer {
+      margin-top: var(--space-5);
+    }
+  }
+</style>

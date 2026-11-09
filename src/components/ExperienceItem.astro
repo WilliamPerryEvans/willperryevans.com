@@ -1,0 +1,91 @@
+---
+import type { Experience } from '../lib/content';
+import { isRealUrl } from '../lib/content';
+import Icon from './Icon.astro';
+
+interface Props {
+  entry: Experience;
+}
+const { entry } = Astro.props;
+const { years, title, org, location, description, link } = entry.data;
+---
+<li class="experience-item">
+  <div class="experience-item__years" aria-hidden="false">{years}</div>
+  <div class="experience-item__body">
+    <h3 class="experience-item__role">
+      {title}
+      <span class="experience-item__org">
+        {' · '}
+        {
+          isRealUrl(link) ? (
+            <a class="experience-item__org-link" href={link} target="_blank" rel="noopener">
+              {org}
+              <Icon name="arrow-up-right" size={14} />
+            </a>
+          ) : (
+            org
+          )
+        }
+      </span>
+    </h3>
+    <p class="experience-item__location">{location}</p>
+    <p class="experience-item__desc">{description}</p>
+  </div>
+</li>
+
+<style>
+  .experience-item {
+    display: grid;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    margin: 0 calc(-1 * var(--space-4));
+    border-radius: var(--radius);
+    border: 1px solid transparent;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+  .experience-item:hover {
+    background: var(--surface);
+    border-color: var(--border);
+  }
+  .experience-item__years {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 0.2rem;
+  }
+  .experience-item__role {
+    font-size: var(--text-base);
+    font-weight: 600;
+  }
+  .experience-item__org {
+    font-weight: 500;
+    color: var(--text);
+  }
+  .experience-item__org-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    color: var(--text);
+  }
+  .experience-item__org-link:hover {
+    color: var(--accent);
+  }
+  .experience-item__location {
+    font-size: var(--text-sm);
+    color: var(--muted);
+  }
+  .experience-item__desc {
+    font-size: var(--text-sm);
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  @media (min-width: 640px) {
+    .experience-item {
+      grid-template-columns: 7.5rem 1fr;
+      gap: var(--space-4) var(--space-4);
+    }
+  }
+</style>

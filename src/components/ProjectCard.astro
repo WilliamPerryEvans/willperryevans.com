@@ -1,0 +1,230 @@
+---
+import { Image } from 'astro:assets';
+import type { Project } from '../lib/content';
+import { isRealUrl } from '../lib/content';
+import Icon from './Icon.astro';
+
+interface Props {
+  entry: Project;
+  hasDetail?: boolean;
+  compact?: boolean;
+}
+const { entry, hasDetail = false, compact = false } = Astro.props;
+const { title, years, org, role, summary, links, thumbnail, thumbnailPosition, in_my_words } = entry.data;
+
+const detailHref = hasDetail ? `/projects/${entry.id}/` : undefined;
+const linkTypeToIcon: Record<string, string> = {
+  demo: 'external',
+  source: 'github',
+  video: 'video',
+  report: 'report',
+  site: 'site',
+  article: 'article',
+  book: 'book',
+  map: 'map',
+};
+---
+<li class:list={['project-card', { 'project-card--compact': compact }]}>
+  {
+    !compact && (
+      <div class="project-card__media">
+        {thumbnail ? (
+          <Image src={thumbnail} alt={`Thumbnail for ${title}`} widths={[220, 440]} sizes="220px" loading="lazy" style={thumbnailPosition ? `object-position: ${thumbnailPosition}` : undefined} />
+        ) : (
+          <div class="project-card__cover" aria-hidden="true">
+            <span>{title}</span>
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  <div class="project-card__body">
+    <p class="project-card__meta">{years} · {org} · {role}</p>
+    <h3 class="project-card__title">
+      {
+        detailHref ? (
+          <a href={detailHref} class="project-card__title-link">
+            {title}
+            <Icon name="arrow-up-right" size={16} />
+          </a>
+        ) : (
+          title
+        )
+      }
+    </h3>
+    <p class="project-card__summary">{summary}</p>
+
+    {
+      in_my_words && (
+        <p class="project-card__note">
+          <span class="project-card__note-label">In my words</span>
+          {in_my_words}
+        </p>
+      )
+    }
+
+    {
+      links.length > 0 && (
+        <ul class="project-card__links">
+          {links.map((l) =>
+            isRealUrl(l.url) ? (
+              <li>
+                <a class="project-card__link" href={l.url} target="_blank" rel="noopener">
+                  <Icon name={linkTypeToIcon[l.type ?? 'site'] ?? 'external'} size={15} />
+                  {l.label}
+                </a>
+              </li>
+            ) : (
+              <li>
+                <span class="project-card__link project-card__link--pending" title="Link coming soon">
+                  <Icon name={linkTypeToIcon[l.type ?? 'site'] ?? 'external'} size={15} />
+                  {l.label}
+                </span>
+              </li>
+            )
+          )}
+        </ul>
+      )
+    }
+  </div>
+</li>
+
+<style>
+  .project-card {
+    display: grid;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    margin: 0 calc(-1 * var(--space-4));
+    border-radius: var(--radius);
+    border: 1px solid transparent;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+  .project-card:hover {
+    background: var(--surface);
+    border-color: var(--border);
+  }
+
+  /* Thumbnails are small and sit beside the text (above it on phones).
+     Change --thumb-width to make every project thumbnail bigger or smaller. */
+  .project-card {
+    --thumb-width: 220px;
+  }
+  .project-card__media {
+    width: 100%;
+    max-width: var(--thumb-width);
+  }
+  .project-card__media :global(img),
+  .project-card__cover {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  .project-card__cover {
+    display: flex;
+    align-items: center;
+    padding: var(--space-4);
+    background:
+      linear-gradient(135deg,
+        color-mix(in srgb, var(--accent) 14%, var(--surface)),
+        var(--surface));
+  }
+  .project-card__cover span {
+    font-weight: 600;
+    font-size: var(--text-base);
+    letter-spacing: -0.01em;
+    color: var(--text);
+    line-height: 1.25;
+  }
+
+  .project-card__meta {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    margin-bottom: var(--space-1);
+  }
+  .project-card__title {
+    font-size: var(--text-lg);
+    font-weight: 600;
+  }
+  .project-card__title-link {
+    display: inline;
+    color: var(--text);
+  }
+  /* Keep the small arrow right after the last word when a title wraps. */
+  .project-card__title-link :global(svg) {
+    display: inline-block;
+    vertical-align: -1px;
+    margin-left: 0.3rem;
+  }
+  .project-card__title-link:hover {
+    color: var(--accent);
+  }
+  .project-card__title-link svg {
+    transition: transform 0.15s ease;
+  }
+  .project-card__title-link:hover svg {
+    transform: translate(2px, -2px);
+  }
+  .project-card__summary {
+    margin-top: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .project-card__note {
+    margin-top: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-left: 2px solid var(--accent);
+    background: var(--surface);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: var(--text-sm);
+    color: var(--text);
+  }
+  .project-card__note-label {
+    display: block;
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: var(--space-1);
+  }
+  .project-card__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    list-style: none;
+    padding: 0;
+    margin: var(--space-3) 0 0;
+  }
+  .project-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text);
+  }
+  .project-card__link:hover {
+    color: var(--accent);
+  }
+  .project-card__link--pending {
+    color: var(--muted);
+    cursor: default;
+    font-style: italic;
+  }
+
+  @media (min-width: 640px) {
+    .project-card:not(.project-card--compact) {
+      grid-template-columns: var(--thumb-width) 1fr;
+      gap: var(--space-5);
+      align-items: start;
+    }
+    .project-card__media {
+      margin-top: 0.2rem;
+    }
+  }
+</style>

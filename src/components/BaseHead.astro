@@ -1,0 +1,85 @@
+---
+// Global styles (tokens must load before the rest).
+import '../styles/tokens.css';
+import '../styles/global.css';
+import '../styles/print.css';
+
+// Self-hosted Inter (no external font requests).
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+
+import { site } from '../data/site';
+import { isRealUrl } from '../lib/content';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Path to an OG image relative to the site root. */
+  image?: string;
+}
+const {
+  title,
+  description = site.seo.description,
+  image = '/og.png',
+} = Astro.props;
+
+const pageTitle = title ? `${title} · ${site.name}` : site.seo.titleDefault;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const imageUrl = new URL(image, Astro.site).href;
+
+// JSON-LD Person schema.
+const sameAs = [site.links.linkedin, site.links.github, site.links.substack].filter(isRealUrl);
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  url: Astro.site?.href,
+  description: site.seo.description,
+  sameAs,
+};
+---
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={title ?? site.seo.titleDefault} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title ?? site.seo.titleDefault} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#161512" media="(prefers-color-scheme: dark)" />
+
+<script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
+<!-- Set the stored theme before paint to avoid a flash of the wrong theme. -->
+<script is:inline>
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    } catch (e) {}
+  })();
+</script>

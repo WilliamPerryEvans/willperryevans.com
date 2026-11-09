@@ -1,0 +1,75 @@
+---
+import Icon from './Icon.astro';
+---
+<button
+  type="button"
+  class="theme-toggle no-print"
+  data-theme-toggle
+  aria-label="Switch color theme"
+  title="Switch between light and dark"
+>
+  <span class="theme-toggle__icon theme-toggle__icon--sun"><Icon name="sun" size={18} /></span>
+  <span class="theme-toggle__icon theme-toggle__icon--moon"><Icon name="moon" size={18} /></span>
+</button>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .theme-toggle:hover {
+    color: var(--text);
+    border-color: var(--muted);
+  }
+
+  .theme-toggle__icon {
+    display: none;
+    line-height: 0;
+  }
+
+  /* Show the sun in dark mode (click to go light) and the moon in light mode. */
+  :root[data-theme='dark'] .theme-toggle__icon--sun,
+  :root[data-theme='light'] .theme-toggle__icon--moon,
+  :root:not([data-theme]) .theme-toggle__icon--moon {
+    display: inline-flex;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) .theme-toggle__icon--moon {
+      display: none;
+    }
+    :root:not([data-theme]) .theme-toggle__icon--sun {
+      display: inline-flex;
+    }
+  }
+</style>
+
+<script>
+  function currentTheme(): 'light' | 'dark' {
+    const explicit = document.documentElement.getAttribute('data-theme');
+    if (explicit === 'light' || explicit === 'dark') return explicit;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  const button = document.querySelector('[data-theme-toggle]');
+  button?.addEventListener('click', () => {
+    const next = currentTheme() === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try {
+      localStorage.setItem('theme', next);
+    } catch {
+      /* ignore storage errors (e.g. private mode) */
+    }
+  });
+</script>

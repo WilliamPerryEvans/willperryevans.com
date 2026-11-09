@@ -1,0 +1,63 @@
+/*
+ * Print styles — used mainly so the /resume page prints cleanly on paper.
+ * Hides navigation, toggles, and decorative elements; sets black ink on white.
+ */
+
+@media print {
+  :root {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --text: #000000;
+    --muted: #333333;
+    --accent: #000000;
+    --accent-strong: #000000;
+    --border: #999999;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+
+  .no-print,
+  .theme-toggle,
+  .skip-link,
+  .site-nav,
+  .social-links,
+  .backlink,
+  .youtube-facade {
+    display: none !important;
+  }
+
+  .layout {
+    display: block;
+    max-width: none;
+    padding: 0;
+  }
+
+  a {
+    color: #000;
+    text-decoration: underline;
+  }
+
+  /* Show the URL after links so printed pages keep their references. */
+  .print-url a::after {
+    content: ' (' attr(href) ')';
+    font-size: 9pt;
+    color: #333;
+  }
+
+  .section,
+  .resume-entry,
+  .experience-item {
+    break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+}

@@ -1,0 +1,104 @@
+---
+import { site } from '../data/site';
+---
+<nav class="site-nav no-print" aria-label="In-page navigation">
+  <ul>
+    {
+      site.nav.map((item) => (
+        <li>
+          <a class="site-nav__link" href={item.href} data-nav-link>
+            <span class="site-nav__line" aria-hidden="true" />
+            <span class="site-nav__text">{item.label}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .site-nav {
+    margin-top: var(--space-6);
+  }
+  .site-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .site-nav__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-1) 0;
+    color: var(--muted);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .site-nav__line {
+    display: inline-block;
+    height: 1px;
+    width: 1.5rem;
+    background: var(--muted);
+    transition: width 0.2s ease, background-color 0.2s ease;
+  }
+  .site-nav__link:hover,
+  .site-nav__link:focus-visible {
+    color: var(--text);
+  }
+  .site-nav__link:hover .site-nav__line,
+  .site-nav__link:focus-visible .site-nav__line {
+    width: 2.5rem;
+    background: var(--text);
+  }
+  .site-nav__link.is-active {
+    color: var(--text);
+  }
+  .site-nav__link.is-active .site-nav__line {
+    width: 3rem;
+    background: var(--accent);
+  }
+
+  /* The in-page nav only makes sense in the two-column desktop layout. */
+  @media (max-width: 1023px) {
+    .site-nav {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const links = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]')
+  );
+  const byId = new Map<string, HTMLAnchorElement>();
+  for (const link of links) {
+    const id = link.getAttribute('href')?.replace('#', '');
+    if (id) byId.set(id, link);
+  }
+
+  const sections = Array.from(byId.keys())
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  function setActive(id: string) {
+    for (const link of links) link.classList.remove('is-active');
+    byId.get(id)?.classList.add('is-active');
+  }
+
+  if (sections.length && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        }
+      },
+      { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
+    );
+    for (const section of sections) observer.observe(section);
+  }
+</script>

@@ -1,0 +1,209 @@
+---
+import SubPageLayout from '../layouts/SubPageLayout.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+import { education, earlierRoles } from '../data/resume-extras';
+import { getExperience, isPlaceholder, isRealUrl } from '../lib/content';
+
+const experience = await getExperience();
+const pdfPath = '/Will-Perry-Evans-Resume.pdf';
+---
+<SubPageLayout title="Résumé" description={`Résumé of ${site.name}.`}>
+  <article class="resume">
+    <header class="resume__header">
+      <div>
+        <h1 class="resume__name">{site.name}</h1>
+        <p class="resume__title">{site.headline}</p>
+      </div>
+      <a class="resume__download no-print" href={pdfPath} download>
+        <Icon name="download" size={16} />
+        Download PDF
+      </a>
+    </header>
+
+    <p class="resume__contact">
+      <a class="inline-link" data-email-user={site.email.user} data-email-domain={site.email.domain} href="#">
+        Email
+      </a>
+      {isRealUrl(site.links.linkedin) && (
+        <>
+          <span class="resume__sep">·</span>
+          <a class="inline-link" href={site.links.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+        </>
+      )}
+      {!isPlaceholder(site.location) && (
+        <>
+          <span class="resume__sep">·</span>
+          <span>{site.location}</span>
+        </>
+      )}
+    </p>
+
+    <section class="resume__section">
+      <h2 class="resume__section-title">Experience</h2>
+      {
+        experience.map((entry) => (
+          <div class="resume-entry">
+            <div class="resume-entry__head">
+              <h3 class="resume-entry__role">{entry.data.title}</h3>
+              <span class="resume-entry__years">{entry.data.years}</span>
+            </div>
+            <p class="resume-entry__org">
+              {entry.data.org} · {entry.data.location}
+            </p>
+            <p class="resume-entry__desc">{entry.data.description}</p>
+          </div>
+        ))
+      }
+    </section>
+
+    <section class="resume__section">
+      <h2 class="resume__section-title">Earlier roles</h2>
+      <ul class="resume__earlier">
+        {
+          earlierRoles.map((r) => (
+            <li>
+              <span class="resume-entry__years">{r.years}</span>
+              <span>{r.role}, {r.org}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="resume__section">
+      <h2 class="resume__section-title">Education</h2>
+      {
+        education.map((e) => (
+          <div class="resume-entry">
+            <div class="resume-entry__head">
+              <h3 class="resume-entry__role">{e.school}</h3>
+              <span class="resume-entry__years">{e.year}</span>
+            </div>
+            <p class="resume-entry__org">{e.degree}</p>
+            {e.notes && (
+              <ul class="resume__notes">
+                {e.notes.map((n) => <li>{n}</li>)}
+              </ul>
+            )}
+          </div>
+        ))
+      }
+    </section>
+  </article>
+</SubPageLayout>
+
+<script>
+  for (const el of document.querySelectorAll<HTMLAnchorElement>('[data-email-user]')) {
+    const user = el.dataset.emailUser;
+    const domain = el.dataset.emailDomain;
+    if (user && domain) el.setAttribute('href', `mailto:${user}@${domain}`);
+  }
+</script>
+
+<style>
+  .resume__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  .resume__name {
+    font-size: var(--text-2xl);
+  }
+  .resume__title {
+    color: var(--muted);
+    margin-top: var(--space-1);
+  }
+  .resume__download {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .resume__download:hover {
+    border-color: var(--muted);
+    color: var(--accent);
+  }
+  .resume__contact {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .resume__sep {
+    color: var(--border);
+  }
+
+  .resume__section {
+    margin-top: var(--space-6);
+  }
+  .resume__section-title {
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: var(--space-4);
+  }
+  .resume-entry + .resume-entry {
+    margin-top: var(--space-4);
+  }
+  .resume-entry__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+  .resume-entry__role {
+    font-size: var(--text-base);
+    font-weight: 600;
+  }
+  .resume-entry__years {
+    font-size: var(--text-xs);
+    color: var(--muted);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .resume-entry__org {
+    font-size: var(--text-sm);
+    color: var(--muted);
+    margin-top: 0.1rem;
+  }
+  .resume-entry__desc {
+    font-size: var(--text-sm);
+    margin-top: var(--space-2);
+    line-height: 1.6;
+  }
+  .resume__earlier {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .resume__earlier li {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+  }
+  .resume__notes {
+    margin: var(--space-2) 0 0;
+    padding-left: var(--space-5);
+    font-size: var(--text-sm);
+    color: var(--muted);
+  }
+</style>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://willperryevans.com/sitemap-index.xml

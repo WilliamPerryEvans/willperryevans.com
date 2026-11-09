@@ -1,0 +1,257 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
+import ExperienceItem from '../components/ExperienceItem.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import WritingList from '../components/WritingList.astro';
+import { site } from '../data/site';
+import { earlierRoles } from '../data/resume-extras';
+import { isRealUrl, getExperience, getProjects, getProjectsWithBody, getWritingGroups } from '../lib/content';
+
+const experience = await getExperience();
+const { featured, more } = await getProjects();
+const detailIds = new Set((await getProjectsWithBody()).map((p) => p.id));
+const writingGroups = await getWritingGroups();
+---
+<BaseLayout>
+  <div class="layout">
+    <Sidebar />
+
+    <main id="main" class="content">
+      <!-- ABOUT -->
+      <section id="about" class="section" aria-labelledby="about-heading">
+        <h2 id="about-heading" class="section-heading">About</h2>
+        <div class="prose">
+          <p>
+            The first time I encountered displacement was in the summer of 2007, when I volunteered
+            with the International Rescue Committee in Dallas and facilitated a literacy camp for
+            refugee children who had recently arrived from Burma, Afghanistan, and Somalia. Since
+            then, I have worked on refugee and humanitarian issues from many different seats. I have
+            been a resettlement intern helping case managers with arrivals, an AmeriCorps VISTA
+            running <a class="inline-link" href="https://news.vt.edu/articles/2011/05/051211-outreach-psp.html" target="_blank" rel="noopener">programs for refugee families</a>{' '}
+            in Roanoke, Virginia, and a <a class="inline-link" href="https://www.peacecorps.gov/about-the-agency/media-center/news/peace-corps-volunteers-lead-camp-in-jordan-to-help-young-men-plan-for-their-future/" target="_blank" rel="noopener">Peace Corps Volunteer</a>{' '}
+            teaching in public schools in Jordan.
+          </p>
+          <p>
+            I earned a Master of Science in Foreign Service at Georgetown University, where I also
+            served as the Editor-in-Chief of the{' '}
+            <a class="inline-link" href="https://gjia.georgetown.edu/" target="_blank" rel="noopener">Georgetown Journal of International Affairs</a>{' '}
+            in 2016–17. During graduate school I interned with{' '}
+            <a class="inline-link" href="https://www.refugeesinternational.org/how-to-support-local-actors-on-the-world-stage/" target="_blank" rel="noopener">Refugees International</a>{' '}
+            and the United Nations High Commissioner for Refugees (UNHCR) in Türkiye. After
+            graduating, I coordinated a{' '}
+            <a class="inline-link" href="https://www.hotosm.org/en/news/kicking-off-the-crowdsourcing-non-camp-refugee-data-project/" target="_blank" rel="noopener">project in Istanbul</a>{' '}
+            mapping services for Syrian refugees and wrote the{' '}
+            <a class="inline-link" href="https://github.com/WilliamPerryEvans/WilliamPerryEvans/blob/main/files/Toolkit-for-Participatory-Mapping.pdf" target="_blank" rel="noopener">Participatory Mapping Toolkit: A Guide for Refugee Contexts</a>.
+            I then led the Humanitarian OpenStreetMap Team's work in Tanzania, which included{' '}
+            <a class="inline-link" href="https://en.wikipedia.org/wiki/Ramani_Huria" target="_blank" rel="noopener">Ramani Huria</a>,
+            the <a class="inline-link" href="https://meteor-project.org/" target="_blank" rel="noopener">METEOR Project</a>,
+            and <a class="inline-link" href="https://youtu.be/XcH-ZmXXYKI" target="_blank" rel="noopener">Open Skies Fellows</a>,
+            all of which relied on the expertise of OpenMap Development Tanzania
+            (<a class="inline-link" href="https://www.linkedin.com/company/openmap-development-tanzania-omdtz/" target="_blank" rel="noopener">OMDTZ</a>).
+          </p>
+          <p>
+            After returning home, I managed a postdoctoral fellowship program at the University of
+            Virginia's Environmental Institute, and from 2023 to 2025 I worked inside the federal
+            government. At the Office of Refugee Resettlement, I managed the Refugee Agricultural
+            Partnership Program (<a class="inline-link" href="https://acf.gov/archive/orr/programs-services/refugees/rapp" target="_blank" rel="noopener">RAPP</a>),
+            provided technical assistance to grantees including resettlement agencies, and led an
+            innovation team that built one of the agency's first{' '}
+            <a class="inline-link" href="https://youtu.be/K7JROWb3Y_k" target="_blank" rel="noopener">AI chatbots</a>{' '}
+            to help applicants navigate federal funding opportunities. At the State Department I
+            served as a Foreign Affairs Officer on the Syria Response Team, where I helped oversee a
+            humanitarian portfolio of more than $596 million, until my position was eliminated in the
+            2025 reduction in force.
+          </p>
+          <p>
+            Today I am a Policy Analyst at the U.S. Committee for Refugees and Immigrants
+            (<a class="inline-link" href="https://refugees.org/" target="_blank" rel="noopener">USCRI</a>),
+            where I lead policy analysis on humanitarian protection across Asia and the Middle East,
+            edit our monthly Policy and Advocacy Newsletter, and lead our Third Country Deportations
+            Tracker. Outside of work I lead{' '}
+            <a class="inline-link" href="https://refugeebureau.org/" target="_blank" rel="noopener">The Refugee Bureau</a>,
+            a volunteer project documenting the history of the State Department's refugee bureau, and
+            I serve on the board of the{' '}
+            <a class="inline-link" href="https://karencommunityfarmnc.org/" target="_blank" rel="noopener">Karen Community Farm</a>,
+            a refugee-led farm outside Raleigh, North Carolina.
+          </p>
+        </div>
+      </section>
+
+      <!-- "How I think about this work" was removed for now; the text is saved in drafts/how-i-think.md -->
+
+      <!-- EXPERIENCE -->
+      <section id="experience" class="section" aria-labelledby="experience-heading">
+        <h2 id="experience-heading" class="section-heading">Experience</h2>
+        <ol class="experience-list">
+          {experience.map((entry) => <ExperienceItem entry={entry} />)}
+        </ol>
+
+        <details class="earlier">
+          <summary>Earlier roles</summary>
+          <ul class="earlier__list">
+            {
+              earlierRoles.map((r) => (
+                <li>
+                  <span class="earlier__years">{r.years}</span>
+                  <span>
+                    {r.role}, {r.org}
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </details>
+        {/* The "View full résumé" link was removed for now. The page is saved as
+            src/pages/_resume.astro (the underscore keeps it off the site). To bring
+            it back, rename it to resume.astro and restore the link here. */}
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects" class="section" aria-labelledby="projects-heading">
+        <h2 id="projects-heading" class="section-heading">Projects</h2>
+        <ul class="card-list">
+          {featured.map((entry) => <ProjectCard entry={entry} hasDetail={detailIds.has(entry.id)} />)}
+        </ul>
+
+        <h3 class="subheading">More projects</h3>
+        <ul class="card-list">
+          {
+            more.map((entry) => (
+              <ProjectCard
+                entry={entry}
+                hasDetail={detailIds.has(entry.id)}
+                compact={!entry.data.thumbnail}
+              />
+            ))
+          }
+        </ul>
+      </section>
+
+      <!-- WRITING -->
+      <section id="writing" class="section" aria-labelledby="writing-heading">
+        <h2 id="writing-heading" class="section-heading">Writing</h2>
+        <WritingList groups={writingGroups} />
+      </section>
+
+      <!-- ALSO -->
+      <section id="also" class="section" aria-labelledby="also-heading">
+        <h2 id="also-heading" class="section-heading">Also</h2>
+        <p class="also">
+          {
+            site.also.map((item, i) => (
+              <>
+                {i > 0 && <span class="also__dot"> · </span>}
+                {item.includes('Karen Community Farm') ? (
+                  <Fragment
+                    set:html={item.replace(
+                      'Karen Community Farm',
+                      `<a class="inline-link" href="${site.karenFarmUrl}" target="_blank" rel="noopener">Karen Community Farm</a>`
+                    )}
+                  />
+                ) : (
+                  item
+                )}
+              </>
+            ))
+          }
+        </p>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="site-footer">
+        <p>
+          Designed and built by {site.name} with Claude Code.{' '}
+          {
+            isRealUrl(site.repoUrl) ? (
+              <a class="inline-link" href={site.repoUrl} target="_blank" rel="noopener">
+                Source on GitHub
+              </a>
+            ) : (
+              <span class="site-footer__pending">Source on GitHub (link coming soon)</span>
+            )
+          }.
+        </p>
+        <p>
+          <a class="inline-link" href="/colophon/">How I built this site</a>
+        </p>
+      </footer>
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .experience-list,
+  .card-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .card-list--compact {
+    gap: 0;
+  }
+
+  .subheading {
+    font-size: var(--text-base);
+    font-weight: 600;
+    margin: var(--space-6) 0 var(--space-3);
+  }
+
+  .earlier {
+    margin-top: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+  .earlier summary {
+    cursor: pointer;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text);
+  }
+  .earlier__list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-3) 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .earlier__list li {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--muted);
+  }
+  .earlier__years {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .also {
+    font-size: var(--text-sm);
+    color: var(--muted);
+    line-height: 1.9;
+  }
+  .also__dot {
+    color: var(--border);
+  }
+
+  .site-footer {
+    margin-top: var(--space-7);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--border);
+    font-size: var(--text-sm);
+    color: var(--muted);
+  }
+  .site-footer p + p {
+    margin-top: var(--space-2);
+  }
+  .site-footer__pending {
+    font-style: italic;
+  }
+</style>

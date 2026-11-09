@@ -1,0 +1,26 @@
+{
+  "name": "willperryevans.com",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal website for Will Perry Evans. Built with Astro, deployed to GitHub Pages.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "node scripts/generate-og.mjs && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check:placeholders": "node scripts/check-placeholders.mjs",
+    "placeholders:list": "node scripts/generate-placeholders-md.mjs",
+    "prebuild": "npm run check:placeholders"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource/inter": "^5.3.0",
+    "astro": "^7.4.7"
+  },
+  "devDependencies": {
+    "satori": "^0.63.2",
+    "sharp": "^0.35.5"
+  }
+}

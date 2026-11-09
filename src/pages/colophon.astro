@@ -1,0 +1,43 @@
+---
+import SubPageLayout from '../layouts/SubPageLayout.astro';
+import { site } from '../data/site';
+import { isRealUrl } from '../lib/content';
+---
+<SubPageLayout title="Colophon" description="How Will Perry Evans built this site.">
+  <article class="colophon">
+    <h1>How I built this site</h1>
+    <div class="prose">
+      <p>
+        I built this site myself with Claude Code, an AI coding assistant, over about a week in
+        November 2026. I wrote the content and made the design decisions, and I used Claude Code to
+        write and test the code. I reviewed every change before it went live. The site is built with
+        Astro and hosted on GitHub Pages, and the full source is public on GitHub
+        {
+          isRealUrl(site.repoUrl) ? (
+            <>
+              {' '}at{' '}
+              <a class="inline-link" href={site.repoUrl} target="_blank" rel="noopener">
+                {site.repoUrl}
+              </a>.
+            </>
+          ) : (
+            <>.</>
+          )
+        }
+      </p>
+      <p>
+        I wanted to build it this way partly because I think people who lead technology in public
+        service should have their hands on the tools. Using an AI assistant well takes the same
+        habits as supervising any new team member. You need to be clear about the goal, check the
+        work, and stay responsible for what ships.
+      </p>
+    </div>
+  </article>
+</SubPageLayout>
+
+<style>
+  .colophon h1 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-5);
+  }
+</style>

@@ -1,0 +1,135 @@
+[
+  {
+    "id": "medicaid-explainer-2026",
+    "group": "policy",
+    "order": 0,
+    "title": "Medicaid Policy Explainer: Implications for Refugee and Immigrant Communities",
+    "date": "2026",
+    "url": "https://refugees.org/medicaid-policy-explainer-september-2026/"
+  },
+  {
+    "id": "world-humanitarian-day-2026",
+    "group": "policy",
+    "order": 1,
+    "title": "World Humanitarian Day 2026: Growing Needs, Shrinking Resources",
+    "date": "2026",
+    "url": "https://refugees.org/world-humanitarian-day-2026/"
+  },
+  {
+    "id": "return-without-protection-2026",
+    "group": "policy",
+    "order": 2,
+    "title": "Return Without Protection: Afghan Refugees and the 2026 U.S.-Iran War",
+    "date": "2026",
+    "url": "https://refugees.org/return-without-protection-afghan-refugees-and-the-2026-u-s-iran-war/"
+  },
+  {
+    "id": "anti-trafficking-2026",
+    "group": "policy",
+    "order": 3,
+    "title": "Anti-Trafficking State of Play 2026",
+    "date": "2026",
+    "url": "https://refugees.org/anti-trafficking-state-of-play-2026/"
+  },
+  {
+    "id": "capitol-hill-2026",
+    "group": "policy",
+    "order": 4,
+    "title": "USCRI Brings the Case for Refugee Protections to Capitol Hill",
+    "date": "2026",
+    "url": "https://refugees.org/uscri-brings-the-case-for-refugee-protections-to-capitol-hill/"
+  },
+  {
+    "id": "forgotten-children-al-hol-2026",
+    "group": "policy",
+    "order": 5,
+    "title": "Forgotten Children: Child Protection Failures in al-Hol, Syria, June 2026",
+    "date": "2026",
+    "note": "Report (PDF)",
+    "url": "https://refugees.org/wp-content/uploads/2026/06/USCRI_TheirFutureTheirVoice-1.pdf"
+  },
+  {
+    "id": "uscri-newsletter-2026-04-23",
+    "group": "policy",
+    "order": 6,
+    "title": "Policy and Advocacy Newsletter: April 23, 2026",
+    "date": "2026",
+    "note": "Editor of the monthly newsletter",
+    "url": "https://refugees.org/policy-and-advocacy-newsletter-april-23-2026/"
+  },
+  {
+    "id": "situation-update-iran-2026",
+    "group": "policy",
+    "order": 7,
+    "title": "Iran Situation Update: Ten Issues Reshaping the Humanitarian Landscape, April 2026",
+    "date": "2026",
+    "url": "https://refugees.org/situation-update-iran-april-2026/"
+  },
+  {
+    "id": "situation-update-myanmar-2026",
+    "group": "policy",
+    "order": 8,
+    "title": "Situation Update: Myanmar (Burma), February 2026",
+    "date": "2026",
+    "url": "https://refugees.org/situation-update-myanmar-burma-february-2026/"
+  },
+  {
+    "id": "dalai-lama-archives-2026",
+    "group": "policy",
+    "order": 9,
+    "title": "A Conversation with the Dalai Lama – From the Archives, February 2026",
+    "date": "2026",
+    "url": "https://refugees.org/a-conversation-with-the-dalai-lama-from-the-archives/"
+  },
+  {
+    "id": "refugee-bureau",
+    "group": "refugee-bureau",
+    "order": 0,
+    "title": "The Refugee Bureau (PRM History Project)",
+    "date": "2026–present",
+    "url": "https://refugeebureau.org/"
+  },
+  {
+    "id": "a-hard-goodbye-2025",
+    "group": "earlier",
+    "order": 0,
+    "title": "A Hard Goodbye: My Termination from State and the Bigger Story Behind It",
+    "date": "2025",
+    "note": "LinkedIn article",
+    "url": "https://www.linkedin.com/pulse/hard-goodbye-my-termination-from-state-bigger-story-behind-evans-qmobe",
+    "thumbnail": "a-hard-goodbye.jpg",
+    "thumbnailAlt": "Will Perry Evans standing on the front steps of a large stone government building"
+  },
+  {
+    "id": "participatory-mapping-toolkit",
+    "group": "earlier",
+    "order": 2,
+    "title": "Participatory Mapping Toolkit: A Guide for Refugee Contexts",
+    "date": "2018",
+    "note": "Humanitarian OpenStreetMap Team · lead author",
+    "url": "https://github.com/WilliamPerryEvans/WilliamPerryEvans/blob/main/files/Toolkit-for-Participatory-Mapping.pdf",
+    "thumbnail": "participatory-mapping-toolkit.png",
+    "thumbnailAlt": "Cover of the Participatory Mapping Toolkit: A Guide for Refugee Contexts, from the Humanitarian OpenStreetMap Team"
+  },
+  {
+    "id": "jordan-walk-tales",
+    "group": "earlier",
+    "order": 1,
+    "title": "Jordan Walk Tales",
+    "date": "2021",
+    "note": "A bilingual English–Arabic travel book · co-author",
+    "url": "https://a.co/d/0dvpUJeN",
+    "thumbnail": "jordan-walk-tales.jpg",
+    "thumbnailAlt": "Cover of Jordan Walk Tales, showing a tent and a donkey among ancient stone columns, with the Arabic title below"
+  },
+  {
+    "id": "gjia-editor",
+    "group": "earlier",
+    "order": 3,
+    "title": "Editor-in-Chief, Georgetown Journal of International Affairs",
+    "date": "2016–2017",
+    "url": "https://gjia.georgetown.edu/",
+    "thumbnail": "gjia-collage.png",
+    "thumbnailAlt": "Covers of three issues of the Georgetown Journal of International Affairs: Migration (Winter/Spring 2016), Terrorism (Summer/Fall 2016), and Global Commons (Winter/Spring 2017)"
+  }
+]
