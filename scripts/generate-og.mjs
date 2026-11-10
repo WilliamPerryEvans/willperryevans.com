@@ -1,86 +1,55 @@
-// Generates public/og.png — the social share image: the name and title on the
-// accent color. Runs at the start of `npm run build`. Uses satori (which turns
-// text into vector paths, so no system fonts are needed) plus sharp to
-// rasterize to PNG.
+// Generates public/og.png — the social share image shown when the site is
+// linked on LinkedIn, Slack, iMessage, etc. Runs at the start of `npm run build`.
+//
+// It places the WPE logo (src/assets/og/wpe-logo-dark.jpg, a square image)
+// full height in the middle of a 1200x630 card. Link previews are wide, so a
+// square image on its own would get its top and bottom cropped. The sides of
+// the card are filled with the logo's own charcoal background, and the logo's
+// left and right edges fade into it so there is no visible seam.
 
 import fs from 'node:fs';
 import path from 'node:path';
-import satori from 'satori';
 import sharp from 'sharp';
 
 const ROOT = process.cwd();
+const LOGO = path.join(ROOT, 'src/assets/og/wpe-logo-dark.jpg');
 
-// Keep the share image in sync with the sidebar text in src/data/site.ts.
-const siteSrc = fs.readFileSync(path.join(ROOT, 'src/data/site.ts'), 'utf8');
-const name = siteSrc.match(/name:\s*'([^']+)'/)?.[1] ?? 'Will Perry Evans';
-const title = siteSrc.match(/headline:\s*'([^']+)'/)?.[1] ?? '';
+const WIDTH = 1200;
+const HEIGHT = 630;
+const FADE = 90; // px of fade on each side of the logo
+// The logo's background colour: the average of its left and right edges.
+const BACKGROUND = { r: 40, g: 43, b: 47 };
 
-const fontRegular = fs.readFileSync(
-  path.join(ROOT, 'node_modules/@fontsource/inter/files/inter-latin-400-normal.woff')
+const logo = await sharp(LOGO).resize(HEIGHT, HEIGHT).removeAlpha().toBuffer();
+
+// A mask that is opaque in the middle and fades to transparent at the left
+// and right edges.
+const stop = ((FADE / HEIGHT) * 100).toFixed(2);
+const mask = Buffer.from(
+  `<svg xmlns="http://www.w3.org/2000/svg" width="${HEIGHT}" height="${HEIGHT}">
+    <defs>
+      <linearGradient id="g" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+        <stop offset="${stop}%" stop-color="#fff" stop-opacity="1"/>
+        <stop offset="${100 - stop}%" stop-color="#fff" stop-opacity="1"/>
+        <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#g)"/>
+  </svg>`
 );
-const fontBold = fs.readFileSync(
-  path.join(ROOT, 'node_modules/@fontsource/inter/files/inter-latin-700-normal.woff')
-);
-
-const ACCENT = '#4a5b52';
-const PAPER = '#faf9f6';
-
-const element = {
-  type: 'div',
-  props: {
-    style: {
-      height: '630px',
-      width: '1200px',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'flex-start',
-      backgroundColor: ACCENT,
-      color: PAPER,
-      padding: '80px',
-      fontFamily: 'Inter',
-    },
-    children: [
-      {
-        type: 'div',
-        props: {
-          style: { fontSize: 30, opacity: 0.82, marginBottom: 28 },
-          children: 'willperryevans.com',
-        },
-      },
-      {
-        type: 'div',
-        props: {
-          style: {
-            fontSize: 84,
-            fontWeight: 700,
-            letterSpacing: '-0.03em',
-            lineHeight: 1.05,
-          },
-          children: name,
-        },
-      },
-      {
-        type: 'div',
-        props: {
-          style: { fontSize: 36, marginTop: 24, opacity: 0.92, maxWidth: 960, lineHeight: 1.3 },
-          children: title,
-        },
-      },
-    ],
-  },
-};
-
-const svg = await satori(element, {
-  width: 1200,
-  height: 630,
-  fonts: [
-    { name: 'Inter', data: fontRegular, weight: 400, style: 'normal' },
-    { name: 'Inter', data: fontBold, weight: 700, style: 'normal' },
-  ],
-});
+const alpha = await sharp(mask).extractChannel('alpha').raw().toBuffer();
+const fadedLogo = await sharp(logo)
+  .joinChannel(alpha, { raw: { width: HEIGHT, height: HEIGHT, channels: 1 } })
+  .png()
+  .toBuffer();
 
 const outDir = path.join(ROOT, 'public');
 fs.mkdirSync(outDir, { recursive: true });
-await sharp(Buffer.from(svg)).png().toFile(path.join(outDir, 'og.png'));
+await sharp({
+  create: { width: WIDTH, height: HEIGHT, channels: 3, background: BACKGROUND },
+})
+  .composite([{ input: fadedLogo, left: Math.round((WIDTH - HEIGHT) / 2), top: 0 }])
+  .png({ compressionLevel: 9 })
+  .toFile(path.join(outDir, 'og.png'));
 console.log('Wrote public/og.png');
