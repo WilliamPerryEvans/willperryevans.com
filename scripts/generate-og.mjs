@@ -1,4 +1,4 @@
-// Generates public/og.png — the social share image shown when the site is
+// Generates public/og.jpg — the social share image shown when the site is
 // linked on LinkedIn, Slack, iMessage, etc. Runs at the start of `npm run build`.
 //
 // It places the WPE logo (src/assets/og/wpe-logo-dark.jpg, a square image)
@@ -50,6 +50,8 @@ await sharp({
   create: { width: WIDTH, height: HEIGHT, channels: 3, background: BACKGROUND },
 })
   .composite([{ input: fadedLogo, left: Math.round((WIDTH - HEIGHT) / 2), top: 0 }])
-  .png({ compressionLevel: 9 })
-  .toFile(path.join(outDir, 'og.png'));
-console.log('Wrote public/og.png');
+  // JPEG, not PNG: the textured background makes a PNG ~490 KB, and WhatsApp
+  // drops preview images over roughly 300 KB. This comes out around 60 KB.
+  .jpeg({ quality: 85, mozjpeg: true })
+  .toFile(path.join(outDir, 'og.jpg'));
+console.log('Wrote public/og.jpg');
