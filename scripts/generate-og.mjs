@@ -19,6 +19,11 @@ const HEIGHT = 630;
 // Fraction of the logo kept, centred: 1 = whole logo, 0.8 = trims the outer
 // leaf tips so the medallion fills the card's height.
 const ZOOM = 0.8;
+// A slight blur. The logo's engraving is made of hairlines, and WhatsApp
+// shrinks the card to ~100px with a crude resize, which turns them into a
+// scratchy mess. Softening them first keeps the thumbnail clean; at the size
+// LinkedIn and others display the card (~550px wide) it is barely visible.
+const SOFTEN = 1.4;
 // The logo's background colour: the average of its left and right edges.
 const BACKGROUND = { r: 40, g: 43, b: 47 };
 
@@ -28,6 +33,7 @@ const offset = Math.round((logoSize - keep) / 2);
 const logo = await sharp(LOGO)
   .extract({ left: offset, top: offset, width: keep, height: keep })
   .resize(HEIGHT, HEIGHT)
+  .blur(SOFTEN)
   .toBuffer();
 
 const outDir = path.join(ROOT, 'public');
