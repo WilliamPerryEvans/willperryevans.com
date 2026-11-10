@@ -6,7 +6,7 @@ sortYear: 2025
 years: "2025"
 org: "AFGE"
 role: "Writer and co-producer"
-summary: "On July 11, 2025, more than 1,350 career civil servants were handed Reduction in Force notices and escorted out of the State Department. I was one of them. I wrote the request for proposals for this documentary and co-produced it to honor those public servants and to show the public who they were."
+summary: "I wrote the request for proposals for this documentary and co-produced it. It tells the story of the more than 1,350 career civil servants who received reduction-in-force notices at the State Department in July 2025, to honor their work and show the public who they were."
 tags: ["Documentary", "Public service", "Storytelling"]
 thumbnail: ../../assets/projects/public-servants.png
 links:

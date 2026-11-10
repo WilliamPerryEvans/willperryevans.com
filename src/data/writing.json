@@ -82,14 +82,6 @@
     "url": "https://refugees.org/a-conversation-with-the-dalai-lama-from-the-archives/"
   },
   {
-    "id": "refugee-bureau",
-    "group": "refugee-bureau",
-    "order": 0,
-    "title": "The Refugee Bureau (PRM History Project)",
-    "date": "2026–present",
-    "url": "https://refugeebureau.org/"
-  },
-  {
     "id": "a-hard-goodbye-2025",
     "group": "earlier",
     "order": 0,
@@ -112,17 +104,6 @@
     "thumbnailAlt": "Cover of the Participatory Mapping Toolkit: A Guide for Refugee Contexts, from the Humanitarian OpenStreetMap Team"
   },
   {
-    "id": "jordan-walk-tales",
-    "group": "earlier",
-    "order": 1,
-    "title": "Jordan Walk Tales",
-    "date": "2021",
-    "note": "A bilingual English–Arabic travel book · co-author",
-    "url": "https://a.co/d/0dvpUJeN",
-    "thumbnail": "jordan-walk-tales.jpg",
-    "thumbnailAlt": "Cover of Jordan Walk Tales, showing a tent and a donkey among ancient stone columns, with the Arabic title below"
-  },
-  {
     "id": "gjia-editor",
     "group": "earlier",
     "order": 3,
@@ -131,5 +112,14 @@
     "url": "https://gjia.georgetown.edu/",
     "thumbnail": "gjia-collage.png",
     "thumbnailAlt": "Covers of three issues of the Georgetown Journal of International Affairs: Migration (Winter/Spring 2016), Terrorism (Summer/Fall 2016), and Global Commons (Winter/Spring 2017)"
+  },
+  {
+    "id": "ri-local-actors-2016",
+    "group": "earlier",
+    "order": 4,
+    "title": "How to Support Local Actors on the World Stage",
+    "date": "2016",
+    "note": "Refugees International",
+    "url": "https://www.refugeesinternational.org/how-to-support-local-actors-on-the-world-stage/"
   }
 ]

@@ -60,7 +60,7 @@ export const site = {
     'Certified drone pilot',
     'Certified Grants Officer Representative (State Department)',
     'Virginia Governor’s Volunteerism and Community Service Award (2011)',
-    'Languages: English (native), Levantine Arabic (conversational), Turkish (intermediate), and basic Swahili, Spanish, and French',
+    'Languages: English, Levantine Arabic, Turkish, and basic Swahili, Spanish, and French',
   ],
   // The Karen Community Farm link, used inside the "Also" line.
   karenFarmUrl: 'https://karencommunityfarmnc.org/',

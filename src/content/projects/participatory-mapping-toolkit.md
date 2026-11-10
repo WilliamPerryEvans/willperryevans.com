@@ -1,7 +1,7 @@
 ---
 title: "Participatory Mapping Toolkit: A Guide for Refugee Contexts"
 featured: false
-draft: false
+draft: true
 sortYear: 2018
 years: "2018"
 org: "Humanitarian OpenStreetMap Team"

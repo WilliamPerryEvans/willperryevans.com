@@ -6,7 +6,7 @@ import ProjectCard from '../components/ProjectCard.astro';
 import WritingList from '../components/WritingList.astro';
 import { site } from '../data/site';
 import { earlierRoles } from '../data/resume-extras';
-import { isRealUrl, getExperience, getProjects, getProjectsWithBody, getWritingGroups } from '../lib/content';
+import { getExperience, getProjects, getProjectsWithBody, getWritingGroups } from '../lib/content';
 
 const experience = await getExperience();
 const { featured, more } = await getProjects();
@@ -28,52 +28,38 @@ const writingGroups = await getWritingGroups();
             refugee children who had recently arrived from Burma, Afghanistan, and Somalia. Since
             then, I have worked on refugee and humanitarian issues from many different seats. I have
             been a resettlement intern helping case managers with arrivals, an AmeriCorps VISTA
-            running <a class="inline-link" href="https://news.vt.edu/articles/2011/05/051211-outreach-psp.html" target="_blank" rel="noopener">programs for refugee families</a>{' '}
-            in Roanoke, Virginia, and a <a class="inline-link" href="https://www.peacecorps.gov/about-the-agency/media-center/news/peace-corps-volunteers-lead-camp-in-jordan-to-help-young-men-plan-for-their-future/" target="_blank" rel="noopener">Peace Corps Volunteer</a>{' '}
+            running programs for refugee families in Roanoke, Virginia, and a Peace Corps Volunteer
             teaching in public schools in Jordan.
           </p>
           <p>
             I earned a Master of Science in Foreign Service at Georgetown University, where I also
-            served as the Editor-in-Chief of the{' '}
-            <a class="inline-link" href="https://gjia.georgetown.edu/" target="_blank" rel="noopener">Georgetown Journal of International Affairs</a>{' '}
-            in 2016–17. During graduate school I interned with{' '}
-            <a class="inline-link" href="https://www.refugeesinternational.org/how-to-support-local-actors-on-the-world-stage/" target="_blank" rel="noopener">Refugees International</a>{' '}
-            and the United Nations High Commissioner for Refugees (UNHCR) in Türkiye. After
-            graduating, I coordinated a{' '}
-            <a class="inline-link" href="https://www.hotosm.org/en/news/kicking-off-the-crowdsourcing-non-camp-refugee-data-project/" target="_blank" rel="noopener">project in Istanbul</a>{' '}
-            mapping services for Syrian refugees and wrote the{' '}
-            <a class="inline-link" href="https://github.com/WilliamPerryEvans/WilliamPerryEvans/blob/main/files/Toolkit-for-Participatory-Mapping.pdf" target="_blank" rel="noopener">Participatory Mapping Toolkit: A Guide for Refugee Contexts</a>.
-            I then led the Humanitarian OpenStreetMap Team's work in Tanzania, which included{' '}
-            <a class="inline-link" href="https://en.wikipedia.org/wiki/Ramani_Huria" target="_blank" rel="noopener">Ramani Huria</a>,
-            the <a class="inline-link" href="https://meteor-project.org/" target="_blank" rel="noopener">METEOR Project</a>,
-            and <a class="inline-link" href="https://youtu.be/XcH-ZmXXYKI" target="_blank" rel="noopener">Open Skies Fellows</a>,
-            all of which relied on the expertise of OpenMap Development Tanzania
-            (<a class="inline-link" href="https://www.linkedin.com/company/openmap-development-tanzania-omdtz/" target="_blank" rel="noopener">OMDTZ</a>).
+            served as the Editor-in-Chief of the Georgetown Journal of International Affairs in
+            2016–17. During graduate school I interned with Refugees International and the United
+            Nations High Commissioner for Refugees (UNHCR) in Türkiye. After graduating, I
+            coordinated a project in Istanbul mapping services for Syrian refugees and wrote the
+            Participatory Mapping Toolkit: A Guide for Refugee Contexts. I then became the
+            Humanitarian OpenStreetMap Team's Country Manager in Tanzania, where our work included
+            Ramani Huria, the METEOR Project, and Open Skies Fellows, all of which relied on the expertise of OpenMap Development
+            Tanzania (OMDTZ).
           </p>
           <p>
             After returning home, I managed a postdoctoral fellowship program at the University of
             Virginia's Environmental Institute, and from 2023 to 2025 I worked inside the federal
             government. At the Office of Refugee Resettlement, I managed the Refugee Agricultural
-            Partnership Program (<a class="inline-link" href="https://acf.gov/archive/orr/programs-services/refugees/rapp" target="_blank" rel="noopener">RAPP</a>),
-            provided technical assistance to grantees including resettlement agencies, and led an
-            innovation team that built one of the agency's first{' '}
-            <a class="inline-link" href="https://youtu.be/K7JROWb3Y_k" target="_blank" rel="noopener">AI chatbots</a>{' '}
-            to help applicants navigate federal funding opportunities. At the State Department I
+            Partnership Program (RAPP), provided technical assistance to grantees including
+            resettlement agencies, and led an innovation team that built one of the agency's first
+            AI chatbots to help applicants navigate federal funding opportunities. At the State Department I
             served as a Foreign Affairs Officer on the Syria Response Team, where I helped oversee a
             humanitarian portfolio of more than $596 million, until my position was eliminated in the
             2025 reduction in force.
           </p>
           <p>
-            Today I am a Policy Analyst at the U.S. Committee for Refugees and Immigrants
-            (<a class="inline-link" href="https://refugees.org/" target="_blank" rel="noopener">USCRI</a>),
-            where I lead policy analysis on humanitarian protection across Asia and the Middle East,
-            edit our monthly Policy and Advocacy Newsletter, and lead our Third Country Deportations
-            Tracker. Outside of work I lead{' '}
-            <a class="inline-link" href="https://refugeebureau.org/" target="_blank" rel="noopener">The Refugee Bureau</a>,
-            a volunteer project documenting the history of the State Department's refugee bureau, and
-            I serve on the board of the{' '}
-            <a class="inline-link" href="https://karencommunityfarmnc.org/" target="_blank" rel="noopener">Karen Community Farm</a>,
-            a refugee-led farm outside Raleigh, North Carolina.
+            Today I am a Policy Analyst at the U.S. Committee for Refugees and Immigrants (USCRI),
+            where I cover humanitarian protection across Asia and the Middle East, edit our monthly
+            Policy and Advocacy Newsletter, and manage our Third Country Deportations Tracker.
+            Outside of work I founded and edit The Refugee Bureau, a volunteer project documenting
+            the history of the State Department's refugee bureau, and I serve on the board of the
+            Karen Community Farm, a refugee-led farm outside Raleigh, North Carolina.
           </p>
         </div>
       </section>
@@ -134,44 +120,35 @@ const writingGroups = await getWritingGroups();
         <WritingList groups={writingGroups} />
       </section>
 
-      <!-- ALSO -->
+      <!-- ODDS AND ENDS -->
       <section id="also" class="section" aria-labelledby="also-heading">
-        <h2 id="also-heading" class="section-heading">Also</h2>
-        <p class="also">
+        <h2 id="also-heading" class="section-heading">Odds and ends</h2>
+        <ul class="also">
           {
-            site.also.map((item, i) => (
-              <>
-                {i > 0 && <span class="also__dot"> · </span>}
-                {item.includes('Karen Community Farm') ? (
-                  <Fragment
-                    set:html={item.replace(
-                      'Karen Community Farm',
-                      `<a class="inline-link" href="${site.karenFarmUrl}" target="_blank" rel="noopener">Karen Community Farm</a>`
-                    )}
-                  />
-                ) : (
-                  item
-                )}
-              </>
+            site.also.map((item) => (
+              <li>
+                <span class="also__mark" aria-hidden="true">//</span>
+                <span>
+                  {item.includes('Karen Community Farm') ? (
+                    <Fragment
+                      set:html={item.replace(
+                        'Karen Community Farm',
+                        `<a class="inline-link" href="${site.karenFarmUrl}" target="_blank" rel="noopener">Karen Community Farm</a>`
+                      )}
+                    />
+                  ) : (
+                    item
+                  )}
+                </span>
+              </li>
             ))
           }
-        </p>
+        </ul>
       </section>
 
       <!-- FOOTER -->
       <footer class="site-footer">
-        <p>
-          Designed and built by {site.name} with Claude Code.{' '}
-          {
-            isRealUrl(site.repoUrl) ? (
-              <a class="inline-link" href={site.repoUrl} target="_blank" rel="noopener">
-                Source on GitHub
-              </a>
-            ) : (
-              <span class="site-footer__pending">Source on GitHub (link coming soon)</span>
-            )
-          }.
-        </p>
+        <p>Designed and built by {site.name}.</p>
         <p>
           <a class="inline-link" href="/colophon/">How I built this site</a>
         </p>
@@ -233,12 +210,25 @@ const writingGroups = await getWritingGroups();
   }
 
   .also {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
     font-size: var(--text-sm);
     color: var(--muted);
-    line-height: 1.9;
+    line-height: 1.6;
   }
-  .also__dot {
-    color: var(--border);
+  /* The "//" sits in its own column, so wrapped lines align with the text. */
+  .also li {
+    display: grid;
+    grid-template-columns: 1.75rem 1fr;
+  }
+  .also__mark {
+    color: var(--accent);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-weight: 600;
   }
 
   .site-footer {
@@ -250,8 +240,5 @@ const writingGroups = await getWritingGroups();
   }
   .site-footer p + p {
     margin-top: var(--space-2);
-  }
-  .site-footer__pending {
-    font-style: italic;
   }
 </style>

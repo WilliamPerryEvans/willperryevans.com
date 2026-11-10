@@ -53,7 +53,7 @@ export interface WritingGroup {
 /** Writing entries grouped in display order. */
 export async function getWritingGroups(): Promise<WritingGroup[]> {
   const all = await getCollection('writing');
-  const order: (keyof typeof site.writingGroups)[] = ['policy', 'refugee-bureau', 'earlier'];
+  const order: (keyof typeof site.writingGroups)[] = ['policy', 'earlier'];
   return order.map((key) => ({
     key,
     label: site.writingGroups[key].label,
